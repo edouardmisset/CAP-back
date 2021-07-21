@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+model Ascent {
+  id        Int       @default(autoincrement()) @id
+  routeName String    @db.VarChar(255)
+  topoGrade String    @db.VarChar(255)
+  date      DateTime  @db.Date
+  crag      String    @db.VarChar(255)
+  climber   String    @db.VarChar(255)
+  routeOrBoulder String   @db.VarChar(255)
+  numberOfTries Int      @db.Integer
+}
+
+model User {
+  id        Int       @default(autoincrement()) @id
+  email     String    @unique
+  name      String?   @db.VarChar(100)
+  password  String    @db.VarChar(100)
+}
