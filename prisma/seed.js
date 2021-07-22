@@ -1,4 +1,4 @@
-// const prisma = require('../db')
+const prisma = require('../db')
 const AscentModel = require('../models/AscentModel')
 
 // Table of ascents objects
@@ -107,14 +107,23 @@ const ascentList = [
 module.exports = async function seed() {
   // Create default user
   // await prisma.user.create({
+  //   email: process.env.EMAIL,
   //   username: process.env.USERNAME,
   //   password: process.env.PASSWORD,
   // })
 
   // Create a few ascents
-  // await Promise.all(
-  //   ascentList.map(async (ascent) => AscentModel.create({ ...ascent }))
-  // )
-  console.log(ascentList[0])
-  await AscentModel.create({ ...ascentList[0] })
+  await Promise.all(
+    ascentList.map(async (ascent) => AscentModel.create({ ...ascent }))
+  )
 }
+
+module
+  .exports()
+  .catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })
+  .finally(async () => {
+    await prisma.$disconnect()
+  })
