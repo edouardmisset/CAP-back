@@ -35,28 +35,14 @@ ascentsRouter.get('/by-grade-by-style', async (req, res) => {
 
 // Post a new ascent
 ascentsRouter.post('/', async (req, res) => {
-  const {
-    routeName,
-    topoGrade,
-    date,
-    crag,
-    climber,
-    routeOrBoulder,
-    numberOfTries,
-  } = req.body
+  const ascents = req.body
+  console.log(ascents)
   try {
-    const ascent = await AscentModel.create({
-      routeName,
-      topoGrade,
-      date: new Date(date),
-      crag,
-      climber,
-      routeOrBoulder,
-      numberOfTries,
-    })
-    res.status(200).send(ascent)
+    const result = await AscentModel.createMany(ascents)
+    console.log(result)
+    res.status(200).send('Congrats 🎉')
   } catch (err) {
-    console.err(err)
+    console.error(err)
     res.status(500).send(err)
   }
 })
