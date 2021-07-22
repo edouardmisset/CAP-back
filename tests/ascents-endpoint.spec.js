@@ -48,12 +48,12 @@ describe(`GET /ascents`, () => {
   })
 
   describe('When there are ascents in the DB', () => {
-    ;(async () => {
+    beforeEach(async () => {
       await createRecord()
       await createRecord()
       await createRecord()
       res = await request(app).get('/ascents')
-    })()
+    })
 
     it('status is 200', async () => {
       expect(res.status).toBe(200)
