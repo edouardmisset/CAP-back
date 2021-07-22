@@ -15,10 +15,11 @@ ascentsRouter.get('/', async (req, res) => {
 // Get ascents by grade by style
 ascentsRouter.get('/by-grade-by-style', async (req, res) => {
   try {
-    const firstGo = await AscentModel.findFirstGo()
-    console.log(firstGo)
-const secondGoAndMore = await AscentModel.findSecondGoAndMore()
-    res.send({firstGo, secondGoAndMore})
+    const firstGo = await AscentModel.numberOfAscentsFirstGoByGrade()
+    const secondGoAndMore =
+      await AscentModel.numberOfAscentsSecondGoOrMoreByGrade()
+    const topoGrades = await AscentModel.getGrades()
+    res.send({ x: topoGrades, y: [firstGo, secondGoAndMore] })
   } catch (err) {
     console.error(err)
     res.status(500).send(err)
