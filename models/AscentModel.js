@@ -1,25 +1,27 @@
 const prisma = require('../db')
 
 // Create a new ascent
-const create = async ({
-  routeName,
-  topoGrade,
-  date,
-  crag,
-  climber,
-  routeOrBoulder,
-  numberOfTries,
-}) =>
+const create = async ({ date, numberOfTries, ...rest }) =>
   prisma.ascent.create({
     data: {
-      routeName,
-      topoGrade,
-      date,
-      crag,
-      climber,
-      routeOrBoulder,
+      date: new Date(date),
       numberOfTries: parseInt(numberOfTries, 10),
+      ...rest,
     },
+  })
+
+// Create many new ascents
+const createMany = async (ascents) =>
+  prisma.ascent.createMany({
+    data: ascents.map((ascent) => ({
+      routeName: ascent.routeName,
+      topoGrade: ascent.topoGrade,
+      crag: ascent.crag,
+      climber: ascent.climber,
+      routeOrBoulder: ascent.routeOrBoulder,
+      date: new Date(ascent.date),
+      numberOfTries: parseInt(ascent.numberOfTries, 10),
+    })),
   })
 
 // Returns all the ascents from the DB
@@ -68,6 +70,7 @@ const numberOfAscentsFirstGoByGrade = async () =>
 
 module.exports = {
   create,
+  createMany,
   findAll,
   numberOfAscentsFirstGoByGrade,
   numberOfAscentsSecondGoOrMoreByGrade,
