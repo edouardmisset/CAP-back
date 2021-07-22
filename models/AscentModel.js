@@ -36,38 +36,35 @@ const getGrades = async () =>
     })
   ).map(({ topoGrade }) => topoGrade)
 
+// // Return a list of the number of ascents sent second go or more by grade from the DB
+// const numberOfAscentsSecondGoOrMoreByGrade = async () => {
+//   const result = await prisma.ascent.groupBy({
+//     by: ['topoGrade'],
+//     // _count: true,
+//     where: {
+//       numberOfTries: {
+//         gte: 2,
+//       },
+//     },
+//     orderBy: {
+//       topoGrade: 'asc',
+//     },
+//     _count: true,
+//   })
+//   return result.map(({ topoGrade, _count }) => [topoGrade, _count])
+// }
+
 // Return a list of the number of ascents sent second go or more by grade from the DB
-const numberOfAscentsSecondGoOrMoreByGrade = async () => {
-  const result = await prisma.ascent.groupBy({
-    by: ['topoGrade'],
-    // _count: true,
-    where: {
-      numberOfTries: {
-        gte: 2,
-      },
-    },
-    orderBy: {
-      topoGrade: 'asc',
-    },
-    _count: true,
-  })
-  return result.map(({ topoGrade, _count }) => ({ [topoGrade]: _count }))
-}
+const numberOfAscentsSecondGoOrMoreByGrade = async () =>
+  (
+    await prisma.$queryRaw`SELECT "topoGrade", count(CASE WHEN "numberOfTries" >= 2 THEN 1 END) from "Ascent" GROUP BY "topoGrade" ORDER BY "topoGrade" ASC`
+  ).map(({ topoGrade, count }) => [topoGrade, count])
 
 // Return a list of the number of ascents sent first go by grade from the DB
-const numberOfAscentsFirstGoByGrade = async () => {
-  const result = await prisma.ascent.groupBy({
-    by: ['topoGrade'],
-    _count: true,
-    where: {
-      numberOfTries: 1,
-    },
-    orderBy: {
-      topoGrade: 'asc',
-    },
-  })
-  return result.map(({ topoGrade, _count }) => ({ [topoGrade]: _count }))
-}
+const numberOfAscentsFirstGoByGrade = async () =>
+  (
+    await prisma.$queryRaw`SELECT "topoGrade", count(CASE WHEN "numberOfTries" = 1 THEN 1 END) from "Ascent" GROUP BY "topoGrade" ORDER BY "topoGrade" ASC`
+  ).map(({ topoGrade, count }) => [topoGrade, count])
 
 module.exports = {
   create,
