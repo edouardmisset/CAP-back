@@ -15,6 +15,7 @@ const inTestEnv = getEnv('NODE_ENV') === 'test'
 
 const PORT = getEnv(`PORT${inTestEnv ? '_TEST' : ''}`)
 const DATABASE_URL = getEnv(`DATABASE_URL`)
+const DATABASE_URL_TEST = getEnv(`DATABASE_URL_TEST`)
 
 const dbUrlregex =
   /^(?:([^:/?#\s]+):\/{2})?(?:([^@/?#\s]+)@)?([^/?#\s]+)?(?:\/([^?#\s]*))?(?:[?]([^#\s]+))?\S*$/
@@ -63,4 +64,5 @@ module.exports = {
   SMTP_PORT,
   SMTP_USER,
   SMTP_PASSWORD,
+  DATABASE_URL_TEST,
 }
