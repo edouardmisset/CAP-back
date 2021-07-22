@@ -38,50 +38,35 @@ const getGrades = async () =>
 
 // Return a list of the number of ascents sent second go or more by grade from the DB
 const numberOfAscentsSecondGoOrMoreByGrade = async () => {
-  const result = await prisma.ascent.groupBy(
-    {
-      by: ['topoGrade'],
-      _count: true,
-    },
-    // {
-    //   orderBy: {
-    //     topoGrade: 'desc',
-    //   },
-    // },
-    {
-      having: {
-        numberOfTries: {
-          gte: 2,
-        },
+  const result = await prisma.ascent.groupBy({
+    by: ['topoGrade'],
+    // _count: true,
+    where: {
+      numberOfTries: {
+        gte: 2,
       },
-    }
-  )
-  return result
-    .sort((a, b) => a.topoGrade.localeCompare(b.topoGrade))
-    .map(({ topoGrade, _count }) => ({ [topoGrade]: _count }))
+    },
+    orderBy: {
+      topoGrade: 'asc',
+    },
+    _count: true,
+  })
+  return result.map(({ topoGrade, _count }) => ({ [topoGrade]: _count }))
 }
 
 // Return a list of the number of ascents sent first go by grade from the DB
 const numberOfAscentsFirstGoByGrade = async () => {
-  const result = await prisma.ascent.groupBy(
-    {
-      by: ['topoGrade'],
-      _count: true,
+  const result = await prisma.ascent.groupBy({
+    by: ['topoGrade'],
+    _count: true,
+    where: {
+      numberOfTries: 1,
     },
-    // {
-    //   orderBy: {
-    //     topoGrade: 'desc',
-    //   },
-    // },
-    {
-      having: {
-        numberOfTries: 1,
-      },
-    }
-  )
-  return result
-    .sort((a, b) => a.topoGrade.localeCompare(b.topoGrade))
-    .map(({ topoGrade, _count }) => ({ [topoGrade]: _count }))
+    orderBy: {
+      topoGrade: 'asc',
+    },
+  })
+  return result.map(({ topoGrade, _count }) => ({ [topoGrade]: _count }))
 }
 
 module.exports = {
