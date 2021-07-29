@@ -2,7 +2,7 @@ const argon2 = require('argon2')
 const Joi = require('joi')
 const { prisma } = require('../db')
 
-// ARGON 2
+// ARGON 2 options
 const hashingOptions = {
   memoryCost: 2 ** 16,
   timeCost: 5,
@@ -27,18 +27,16 @@ const verifyPassword = (plainPassword, hashedPassword) =>
 // Validates a user name and password
 const validate = (data) =>
   Joi.object({
-    username: Joi.string().max(255).required(),
-    password: Joi.string().min(1).max(100).required(),
+    username: Joi.string().max(100).required(),
+    password: Joi.string().min(8).max(100).required(),
   }).validate(data, { abortEarly: false }).error
 
 const findMany = () => prisma.user.findMany()
 
-const create = async ({ username, password }) => {
-  const hashedPassword = await hashPassword(password)
-  return prisma.user.create({
-    data: { username, hashedPassword },
+const create = async ({ username, password }) =>
+  prisma.user.create({
+    data: { username, hashedPassword: await hashPassword(password) },
   })
-}
 
 const findOne = (userId) =>
   prisma.user.findUnique({ where: { id: parseInt(userId, 10) } })

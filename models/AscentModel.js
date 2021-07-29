@@ -27,6 +27,14 @@ const createMany = async (ascents) =>
 // Returns all the ascents from the DB
 const findAll = async () => prisma.ascent.findMany({})
 
+// Returns all the ascents from the DB
+const findAllFromUserId = async (userId) =>
+  prisma.ascent.findMany({
+    where: {
+      userId: parseInt(userId, 10),
+    },
+  })
+
 // Return a list of grades from the DB
 const getGrades = async () =>
   (
@@ -37,24 +45,6 @@ const getGrades = async () =>
       },
     })
   ).map(({ topoGrade }) => topoGrade)
-
-// // Return a list of the number of ascents sent second go or more by grade from the DB
-// const numberOfAscentsSecondGoOrMoreByGrade = async () => {
-//   const result = await prisma.ascent.groupBy({
-//     by: ['topoGrade'],
-//     // _count: true,
-//     where: {
-//       numberOfTries: {
-//         gte: 2,
-//       },
-//     },
-//     orderBy: {
-//       topoGrade: 'asc',
-//     },
-//     _count: true,
-//   })
-//   return result.map(({ topoGrade, _count }) => [topoGrade, _count])
-// }
 
 // Return a list of the number of ascents sent second go or more by grade from the DB
 const numberOfAscentsSecondGoOrMoreByGrade = async () =>
@@ -75,4 +65,5 @@ module.exports = {
   numberOfAscentsFirstGoByGrade,
   numberOfAscentsSecondGoOrMoreByGrade,
   getGrades,
+  findAllFromUserId,
 }
