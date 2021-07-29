@@ -35,6 +35,14 @@ const findAllFromUserId = async (userId) =>
     },
   })
 
+// Delete an ascent
+const destroy = async (ascentId) =>
+  prisma.ascent.delete({
+    where: {
+      id: parseInt(ascentId, 10),
+    },
+  })
+
 // Return a list of grades from the DB
 const getGrades = async () =>
   (
@@ -66,4 +74,5 @@ module.exports = {
   numberOfAscentsSecondGoOrMoreByGrade,
   getGrades,
   findAllFromUserId,
+  destroy,
 }

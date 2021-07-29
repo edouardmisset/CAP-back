@@ -32,14 +32,24 @@ ascentsRouter.get('/', async (req, res) => {
 //   }
 // })
 
-// Post a new ascent
+// Post new ascent(s)
 ascentsRouter.post('/', async (req, res) => {
   const ascents = req.body
-  console.log(ascents)
   try {
-    const result = await AscentModel.createMany(ascents)
-    console.log(result)
+    await AscentModel.createMany(ascents)
     res.status(200).send('Congrats 🎉')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send(err)
+  }
+})
+
+// Delete an ascent
+ascentsRouter.delete('/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    await AscentModel.destroy(id)
+    res.status(200).send('Ascent successfully deleted ❌')
   } catch (err) {
     console.error(err)
     res.status(500).send(err)
