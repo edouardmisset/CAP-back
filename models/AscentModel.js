@@ -43,6 +43,24 @@ const destroy = async (ascentId) =>
     },
   })
 
+// Update an ascent
+const update = async (
+  { routeName, crag, numberOfTries, climber, date, routeOrBoulder, topoGrade },
+  ascentId
+) =>
+  prisma.ascent.update({
+    where: { id: parseInt(ascentId, 10) },
+    data: {
+      routeName,
+      topoGrade,
+      crag,
+      climber,
+      routeOrBoulder,
+      date: new Date(date),
+      numberOfTries: parseInt(numberOfTries, 10),
+    },
+  })
+
 // Return a list of grades from the DB
 const getGrades = async () =>
   (
@@ -75,4 +93,5 @@ module.exports = {
   getGrades,
   findAllFromUserId,
   destroy,
+  update,
 }

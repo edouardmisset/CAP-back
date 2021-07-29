@@ -49,7 +49,19 @@ ascentsRouter.delete('/:id', async (req, res) => {
   const { id } = req.params
   try {
     await AscentModel.destroy(id)
-    res.status(200).send('Ascent successfully deleted ❌')
+    res.status(200).send('Ascent deleted ❌')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send(err)
+  }
+})
+
+ascentsRouter.patch('/:id', async (req, res) => {
+  const ascent = req.body
+  const { id } = req.params
+  try {
+    await AscentModel.update(ascent, id)
+    res.status(200).send('Ascent updated 📋')
   } catch (err) {
     console.error(err)
     res.status(500).send(err)
