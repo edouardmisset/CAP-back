@@ -57,7 +57,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm-run-all format lint:fix"
+      "pre-commit": "npm-run-all lint:fix format"
     }
   },
   "jest": {
