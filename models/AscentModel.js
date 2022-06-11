@@ -13,14 +13,20 @@ const create = async ({ date, numberOfTries, ...rest }) =>
 // Create many new ascents
 const createMany = async (ascents) =>
   prisma.ascent.createMany({
-    data: ascents.map((ascent) => ({
-      routeName: ascent.routeName,
-      topoGrade: ascent.topoGrade,
-      crag: ascent.crag,
-      climber: ascent.climber,
-      routeOrBoulder: ascent.routeOrBoulder,
-      date: new Date(ascent.date),
-      numberOfTries: parseInt(ascent.numberOfTries, 10),
+    data: ascents.map(({ routeName, topoGrade, crag, climber, routeOrBoulder, date, numberOfTries, profile, height, personalGrade, region, sector, holds, }) => ({
+      routeName,
+      topoGrade,
+      crag,
+      climber,
+      routeOrBoulder,
+      date: new Date(date),
+      numberOfTries: parseInt(numberOfTries, 10),
+      profile,
+      height: parseInt(height, 10),
+      holds,
+      sector,
+      region,
+      personalGrade,
     })),
   })
 

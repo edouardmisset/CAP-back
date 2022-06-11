@@ -6,7 +6,7 @@
   "author": "Edouard Misset <edouardmisset@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "npm-run-all migrate:deploy generate-db-client start:server",
+    "start": "npm-run-all migrate:deploy generate-db-client start:watch",
     "generate-db-client": "npx prisma generate",
     "migrate:deploy": "npx prisma migrate deploy",
     "migrate": "npx prisma migrate dev",

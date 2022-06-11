@@ -17,9 +17,17 @@ model Ascent {
   topoGrade String    @db.VarChar(255)
   date      DateTime  @db.Date
   crag      String    @db.VarChar(255)
+  sector String @db.VarChar(255)
+  geographicalRegion String @db.VarChar(255)
+  comments String @db.VarChar(255)
   climber   String    @db.VarChar(255)
   routeOrBoulder String   @db.VarChar(255)
   numberOfTries Int      @db.Integer
+  personalGrade String @db.VarChar(255)
+  height String @db.VarChar(255)
+  profile String @db.VarChar(255)
+  holds String @db.VarChar(255)
+  rating String @db.VarChar(255)
 }
 
 model User {

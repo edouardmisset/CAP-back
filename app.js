@@ -19,7 +19,7 @@ const handleServerInternalError = require('./middlewares/handleServerInternalErr
 
 require('dotenv').config()
 
-const port = PORT || 5000
+const port = PORT || 5001
 
 const app = express()
 
